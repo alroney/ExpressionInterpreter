@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cmath>
 using namespace std;
 
 #include "expression.h"
@@ -18,6 +19,10 @@ using namespace std;
 #include "minus.h"
 #include "times.h"
 #include "divide.h"
+#include "modulo.h"
+#include "power.h"
+#include "lessThan.h"
+#include "greaterThan.h"
 
 SubExpression::SubExpression(Expression* left, Expression* right) {
     this->left = left;
@@ -43,6 +48,14 @@ Expression* SubExpression::parse(stringstream& in) {
             return new Times(left, right);
         case '/':
             return new Divide(left, right);
+        case '%':
+            return new Modulo(left, right);
+        case '^':
+            return new Power(left, right);
+        case '<':
+            return new LessThan(left, right);
+        case '>':
+            return new GreaterThan(left, right);
         //endregion
     }
     return 0;
