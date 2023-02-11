@@ -38,10 +38,12 @@ Expression* SubExpression::parse(stringstream& in) {
             return new Plus(left, right);
         case '-':
             return new Minus(left, right);
+        //region - ADDED - added by me
         case '*':
             return new Times(left, right);
         case '/':
             return new Divide(left, right);
+        //endregion
     }
     return 0;
 }
