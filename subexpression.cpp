@@ -16,6 +16,8 @@ using namespace std;
 #include "operand.h"
 #include "plus.h"
 #include "minus.h"
+#include "times.h"
+#include "divide.h"
 
 SubExpression::SubExpression(Expression* left, Expression* right) {
     this->left = left;
@@ -36,6 +38,10 @@ Expression* SubExpression::parse(stringstream& in) {
             return new Plus(left, right);
         case '-':
             return new Minus(left, right);
+        case '*':
+            return new Times(left, right);
+        case '/':
+            return new Divide(left, right);
     }
     return 0;
 }
