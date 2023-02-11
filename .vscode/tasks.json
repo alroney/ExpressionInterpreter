@@ -1,0 +1,31 @@
+/*
+Name: Andrew Roney
+Date: 2/7/2023
+Project: Project 2
+Description:
+    This file contains the task configuration for the debugger. This file is used to compile the project.
+*/
+
+
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "g++ build active file",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "${workspaceFolder}/*.cpp",//This will compile all the cpp files in the workspace folder. Very useful when adding new cpp files to the project.
+                "-o",
+                "${workspaceFolder}/project2.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
