@@ -3,6 +3,8 @@
         "vector": "cpp",
         "istream": "cpp",
         "ostream": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "ios": "cpp",
+        "xiosbase": "cpp"
     }
 }
