@@ -15,7 +15,6 @@ using namespace std;
 #include "expression.h"
 #include "subexpression.h"
 #include "operand.h"
-#include "negate.h"
 #include "plus.h"
 #include "minus.h"
 #include "times.h"
@@ -34,35 +33,31 @@ Expression* SubExpression::parse(stringstream& in) {
     Expression* left;
     Expression* right;
     char operation, paren;
-    
+
     left = Operand::parse(in);
     in >> operation;
-    if (operation == '~') {
-        return new Negate(left);
-    }
-    else{
-        right = Operand::parse(in);
-        in >> paren;
-        switch (operation) {
-            case '+':
-                return new Plus(left, right);
-            case '-':
-                return new Minus(left, right);
-            //region - ADDED - added by me
-            case '*':
-                return new Times(left, right);
-            case '/':
-                return new Divide(left, right);
-            case '%':
-                return new Modulo(left, right);
-            case '^':
-                return new Power(left, right);
-            case '<':
-                return new LessThan(left, right);
-            case '>':
-                return new GreaterThan(left, right);
-            //endregion
-        }
+    right = Operand::parse(in);
+    in >> paren;
+
+    switch (operation) {
+        case '+':
+            return new Plus(left, right);
+        case '-':
+            return new Minus(left, right);
+        //region - ADDED - added by me
+        case '*':
+            return new Times(left, right);
+        case '/':
+            return new Divide(left, right);
+        case '%':
+            return new Modulo(left, right);
+        case '^':
+            return new Power(left, right);
+        case '<':
+            return new LessThan(left, right);
+        case '>':
+            return new GreaterThan(left, right);
+        //endregion
     }
     return 0;
 }
