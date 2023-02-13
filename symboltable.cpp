@@ -6,7 +6,7 @@
 // This file contains the body of the functions contained in The SymbolTable class. The insert function 
 // inserts a new variable symbol and its value into the symbol table and the lookUp function returns
 // that value of the supplied variable symbol name.
-
+#include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
@@ -16,6 +16,7 @@ using namespace std;
 void SymbolTable::insert(string variable, double value) {
     const Symbol& symbol = Symbol(variable, value);
     elements.push_back(symbol);
+
 }
 
 double SymbolTable::lookUp(string variable) const {
