@@ -13,6 +13,7 @@ using namespace std;
 
 #include "expression.h"
 #include "binaryexpression.h"
+#include "ternaryexpression.h"
 #include "subexpression.h"
 #include "operand.h"
 #include "plus.h"
@@ -28,34 +29,43 @@ SubExpression::SubExpression(Expression* left, Expression* right) {
 Expression* SubExpression::parse(stringstream& in) {
     Expression* left;
     Expression* right;
-    char operation, paren;
+    char operation, paren, question, colon;
 
     left = Operand::parse(in);
     in >> operation;
-    right = Operand::parse(in);
-    in >> paren;
 
-    BinaryOperator binary_op = NONE;
-    switch (operation) {
-        case '+':
-            binary_op = ADD; break;
-        case '-':
-            binary_op = SUBTRACT; break;
-        case '*':
-            binary_op = MULTIPLY; break;
-        case '/':
-            binary_op = DIVIDE; break;
-        case '%':
-            binary_op = MODULO; break;
-        case '^':
-            binary_op = POWER; break;
-        case '<':
-            binary_op = LESS_THAN; break;
-        case '>':
-            binary_op = GREATER_THAN; break;
-        case '_':
-            binary_op = UNDERSCORE; break;
+    if (operation == '?') {
+        right = Operand::parse(in);
+        in >> colon;
+        Expression* middle = Operand::parse(in);
+        return new TernaryExpression(left, right, middle);
     }
-    return new BinaryExpression(left, binary_op, right);
+    else {
+        right = Operand::parse(in);
+        in >> paren;
+
+        BinaryOperator binary_op = NONE;
+        switch (operation) {
+            case '+':
+                binary_op = ADD; break;
+            case '-':
+                binary_op = SUBTRACT; break;
+            case '*':
+                binary_op = MULTIPLY; break;
+            case '/':
+                binary_op = DIVIDE; break;
+            case '%':
+                binary_op = MODULO; break;
+            case '^':
+                binary_op = POWER; break;
+            case '<':
+                binary_op = LESS_THAN; break;
+            case '>':
+                binary_op = GREATER_THAN; break;
+            case '_':
+                binary_op = UNDERSCORE; break;
+        }
+        return new BinaryExpression(left, binary_op, right);
+    }
 }
         
