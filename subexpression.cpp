@@ -9,7 +9,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <cmath>
 using namespace std;
 
 #include "expression.h"
@@ -37,8 +36,6 @@ Expression* SubExpression::parse(stringstream& in) {
             return new Plus(left, right);
         case '-':
             return new Minus(left, right);
-        //region - ADDED - added by me
-        //endregion
     }
     return 0;
 }
