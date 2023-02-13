@@ -31,9 +31,9 @@ Expression* SubExpression::parse(stringstream& in) {
     char operation, paren;
 
     left = Operand::parse(in);
-    in >> ws >> operation;
+    in >> operation;
     right = Operand::parse(in);
-    in >> ws >> paren;
+    in >> paren;
 
     BinaryOperator binary_op = NONE;
     switch (operation) {

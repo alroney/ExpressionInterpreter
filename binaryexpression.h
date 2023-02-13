@@ -30,6 +30,8 @@ public:
                 return left->evaluate() > right->evaluate();
             case UNDERSCORE:
                 return left->evaluate() == right->evaluate();
+            default:
+                return 0;
         }
     }
 
