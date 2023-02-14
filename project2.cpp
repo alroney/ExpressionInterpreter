@@ -3,7 +3,8 @@
 * Date: 2/14/2023
 * Project: Project 2
 * Description: This file contains the main function for the project 2 skeleton. It reads an input file
-*  	named input.txt. It parses each statement and then evaluates it.
+*  	named input.txt. It parses each statement and then evaluates it. It also contains the parseAssignments
+*  	function, which parses the variable assignments in the input file.
 */
 
 // CMSC 330 Advanced Programming Languages
@@ -26,6 +27,7 @@ using namespace std;
 #include "subexpression.h"
 #include "symboltable.h"
 #include "parse.h"
+#include "multiple_initialization_exception.h"
 
 SymbolTable symbolTable;
 
@@ -46,6 +48,7 @@ int main() {
 	}
 
 	while (true) {
+		symbolTable.clear();//clear the symbol table
         fin.getline(line, SIZE);
 		if (!fin)
 			break;
@@ -60,6 +63,9 @@ int main() {
 			cout << "\nValue = " << result << endl;
 			cout << string(30, '-') << endl;//print 30 dashes for formatting and readability
 		}
+		catch (const MultipleInitializationException& e) {//catch multiple initialization exception
+			cout << e.mie() << endl;//print the error message from the exception class in function mie()
+		}
 		catch (string message) {
 			cout << message << endl;
 		}
@@ -72,10 +78,12 @@ void parseAssignments(stringstream& in) {
 	char assignop, delimiter;
     string variable;
     double value;
+	int variableCount = 0;
     do {
         variable = parseName(in);
         in >> ws >> assignop >> value >> delimiter;
         symbolTable.insert(variable, value);
+	
     }
     while (delimiter == ',');
 }
