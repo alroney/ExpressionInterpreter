@@ -47,7 +47,7 @@ int main() {
 			in >> comma;
 			parseAssignments(in);
 			double result = expression->evaluate();
-			cout << "Value = " << result << endl;
+			cout << "Value = " << result << "\n" << endl;
 		}
 		catch (string message) {
 			cout << message << endl;
