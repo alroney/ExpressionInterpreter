@@ -12,8 +12,15 @@
 using namespace std;
 
 #include "symboltable.h"
+#include "multiple_initialization_exception.h"
 
 void SymbolTable::insert(string variable, double value) {
+    for (int i = 0; i < elements.size(); i++) {
+        if (elements[i].variable == variable) {
+            throw MultipleInitializationException(variable);
+        }
+    }
+
     const Symbol& symbol = Symbol(variable, value);
     elements.push_back(symbol);
 
