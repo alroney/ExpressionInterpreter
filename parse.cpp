@@ -1,3 +1,11 @@
+/*
+* Name: Andrew Roney
+* Date: 2/14/2023
+* Project: Project 2
+* Description: This file contains the body of the function parseName. That function consumes all alphanumeric
+*   characters until the next whitespace and returns the name that those characters form.
+*/
+
 // CMSC 330 Advanced Programming Languages
 // Project 2 Skeleton
 // UMGC CITE

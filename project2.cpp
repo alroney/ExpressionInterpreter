@@ -1,3 +1,11 @@
+/*
+* Name: Andrew Roney
+* Date: 2/14/2023
+* Project: Project 2
+* Description: This file contains the main function for the project 2 skeleton. It reads an input file
+*  	named input.txt. It parses each statement and then evaluates it.
+*/
+
 // CMSC 330 Advanced Programming Languages
 // Project 2 Skeleton
 // UMGC CITE
@@ -28,13 +36,15 @@ int main() {
 	Expression* expression;
     char paren, comma, line[SIZE];
  
-	ifstream fin;
-	fin = ifstream("input.txt");
-	if (!(fin.is_open())) {
+	ifstream fin;//input file stream
+	fin = ifstream("input.txt");//open file input.txt
+
+	if (!(fin.is_open())) {//if file does not open
 		cout << "File did not open" << endl;
 		system("pause");
 		return 1;
 	}
+
 	while (true) {
         fin.getline(line, SIZE);
 		if (!fin)
@@ -42,12 +52,13 @@ int main() {
 		stringstream in(line, ios_base::in); 
 		in >> paren;
 		cout << line << " ";
-		try {
+		try {//try to parse and evaluate the expression
 			expression = SubExpression::parse(in);
 			in >> comma;
 			parseAssignments(in);
 			double result = expression->evaluate();
-			cout << "Value = " << result << "\n" << endl;
+			cout << "\nValue = " << result << endl;
+			cout << string(30, '-') << endl;//print 30 dashes for formatting and readability
 		}
 		catch (string message) {
 			cout << message << endl;
@@ -60,7 +71,7 @@ int main() {
 void parseAssignments(stringstream& in) {
 	char assignop, delimiter;
     string variable;
-    int value;
+    double value;
     do {
         variable = parseName(in);
         in >> ws >> assignop >> value >> delimiter;

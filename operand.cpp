@@ -27,16 +27,17 @@ Expression* Operand::parse(stringstream& in) {
     int value;
 
     in >> ws;
-    if (isdigit(in.peek())) {
+
+    if (isdigit(in.peek())) {//if the next character is a digit, a literal is created and returned
         in >> value;
         Expression* literal = new Literal(value);
         return literal;
     }
-    if (in.peek() == '(') {
+    if (in.peek() == '(') {//if the next character is a left parenthesis, a recursive call is made to parse the subexpression
         in >> paren;
-        return SubExpression::parse(in);
+        return SubExpression::parse(in);//recursive call to parse the subexpression
     }
     else
-        return new Variable(parseName(in));
+        return new Variable(parseName(in));//otherwise the next token is assumed to be a variable
     return 0;
 }
