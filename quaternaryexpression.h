@@ -12,27 +12,12 @@
 
 class QuaternaryExpression : public Expression {
 public:
-    QuaternaryExpression(Expression* condition, Expression* below, Expression* same, Expression* above) {
-        this->condition = condition;
-        this->below = below;
-        this->same = same;
-        this->above = above;
-    }
-
-    double evaluate() {
-        if (condition->evaluate() < 0) {
-            return below->evaluate();//return the value of the expression below
-        }
-        else if (condition->evaluate() == 0) {
-            return same->evaluate();//return the value of the expression same
-        }
-        else {
-            return above->evaluate();//return the value of the expression above
-        }
-    }
+    QuaternaryExpression(Expression* condition, Expression* belowExpr, Expression* sameExpr, Expression* aboveExpr);
+    double evaluate();
+    
 private://private variables for the class QuaternaryExpression. These variables are pointers to Expression objects
     Expression* condition;
-    Expression* below;
-    Expression* same;
-    Expression* above;
+    Expression* belowExpr;
+    Expression* sameExpr;
+    Expression* aboveExpr;
 };
