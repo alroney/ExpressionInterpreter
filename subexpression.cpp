@@ -9,6 +9,8 @@
 
 #include <iostream>
 #include <sstream>
+#include <regex>
+#include <string>
 using namespace std;
 
 #include "expression.h"
@@ -29,43 +31,67 @@ SubExpression::SubExpression(Expression* left, Expression* right) {
 Expression* SubExpression::parse(stringstream& in) {
     Expression* left;
     Expression* right;
-    char operation, paren, question, colon;
+    Expression* trueExpr;
+    Expression* falseExpr;
+    char operation, paren, question, colon, semicolon, currentChar;
+
 
     left = Operand::parse(in);
-    in >> operation;
+    in >> ws >> operation >> ws;
+    right = Operand::parse(in);
+    in >> ws >> question >> ws;
 
-    if (operation == '?') {
-        right = Operand::parse(in);
-        in >> colon;
-        Expression* middle = Operand::parse(in);
-        return new TernaryExpression(left, right, middle);
-    }
-    else {
-        right = Operand::parse(in);
-        in >> paren;
+    int count = 0;
+    cout << "\n\toperation: " << operation << endl;
 
-        BinaryOperator binary_op = NONE;
-        switch (operation) {
-            case '+':
-                binary_op = ADD; break;
-            case '-':
-                binary_op = SUBTRACT; break;
-            case '*':
-                binary_op = MULTIPLY; break;
-            case '/':
-                binary_op = DIVIDE; break;
-            case '%':
-                binary_op = MODULO; break;
-            case '^':
-                binary_op = POWER; break;
-            case '<':
-                binary_op = LESS_THAN; break;
-            case '>':
-                binary_op = GREATER_THAN; break;
-            case '_':
-                binary_op = UNDERSCORE; break;
-        }
-        return new BinaryExpression(left, binary_op, right);
+    BinaryOperator binary_op = NONE;
+    switch (operation) {
+        case '+':
+            binary_op = ADD; break;
+        case '-':
+            binary_op = SUBTRACT; break;
+        case '*':
+            binary_op = MULTIPLY; break;
+        case '/':
+            binary_op = DIVIDE; break;
+        case '%':
+            binary_op = MODULO; break;
+        case '^':
+            binary_op = POWER; break;
+        case '<':
+            binary_op = LESS_THAN; break;
+        case '>':
+            binary_op = GREATER_THAN; break;
+        case '_':
+            binary_op = UNDERSCORE; break;
     }
+    cout << "\tleft: " << left->evaluate() << endl;
+    cout << "\tright: " << right->evaluate() << endl;
+    cout << "\tquestion: " << question << endl;
+
+    
+
+    if (question != '?') {
+        cout << "\tA binary expression was found: " << endl;
+        cout << "\t\tLeft Expression: " << left->evaluate() << endl;
+        cout << "\t\tRight Expression: " << right->evaluate() << endl;
+        cout << "\t\tOperation: " << operation << endl;
+        return new BinaryExpression(left, binary_op, right);//First Binary Expression
+    }
+
+    if ((operation == '<' || operation == '>' || operation == '_' ) && question == '?') {
+        cout << "\tA ternary expression was found: " << endl;
+        //After the question mark, there should be a true expression then a colon, then a false expression
+        trueExpr = Operand::parse(in);
+        in >> ws >> colon >> ws;
+        falseExpr = Operand::parse(in);
+        in >> ws >> semicolon >> ws;
+        cout << "\t\tTrue Expression: " << trueExpr->evaluate() << endl;
+        cout << "\t\tFalse Expression: " << falseExpr->evaluate() << endl;
+        return new TernaryExpression(new BinaryExpression(left, binary_op, right), trueExpr, falseExpr);//Return the ternary expression with the binary expression as the condition
+    }
+    
+    return 0;
+    
 }
         
