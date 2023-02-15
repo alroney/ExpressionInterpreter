@@ -61,7 +61,6 @@ int main() {
 			parseAssignments(in);
 			double result = expression->evaluate();
 			cout << "\nValue = " << result << endl;
-			cout << string(30, '-') << endl;//print 30 dashes for formatting and readability
 		}
 		catch (const MultipleInitializationException& e) {//catch multiple initialization exception
 			cout << e.mie() << endl;//print the error message from the exception class in function mie()
@@ -69,6 +68,8 @@ int main() {
 		catch (string message) {
 			cout << message << endl;
 		}
+
+		cout << string(40, '=') << endl;//print 30 dashes for formatting and readability
 	}
 	system("pause");
 	return 0;

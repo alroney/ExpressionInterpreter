@@ -62,13 +62,12 @@ Expression* SubExpression::parse(stringstream& in) {
     bool isNeg = false;
 
     nextCheck = in.peek();
-    if (nextCheck == '~') {
+    if (nextCheck == '~') {//if the next character is a tilde then the next subexpression is negative
         in >> tilde;
         isNeg = true;
     }
 
-    left = Operand::parse(in);
-    //cout << "\n\tleft: " << left->evaluate() << endl;
+    left = Operand::parse(in);//parse the left subexpression
     
     //region - LEFT SUBEXPRESSION - check the left subexpression for a unary expression
         nextCheck = in.peek();//check the next character in the stream
@@ -84,7 +83,6 @@ Expression* SubExpression::parse(stringstream& in) {
         }
     //endregion
 
-    cout << "\n\toperation: " << operation << endl;
 
     //region - BINARY OPERATOR - determine the binary operator
         BinaryOperator binary_op = NONE;
@@ -130,42 +128,31 @@ Expression* SubExpression::parse(stringstream& in) {
     in >> ws >> expr_decision >> ws;//check the next character in the stream to see if it is a question mark or a hash or none of the above    
 
     //region - BINARY EXPRESSION - return the binary expression only
-        if (expr_decision != '?' && expr_decision != '#') {
-            //cout << "\tA binary expression was found: " << in.str() << endl;
-            //cout << "\t\tLeft Expression: " << left->evaluate() << endl;
-            //cout << "\t\tRight Expression: " << right->evaluate() << endl;
-            //cout << "\t\tOperation: " << operation << endl;
+        if (expr_decision != '?' && expr_decision != '#') {//If the expression decision is not a question mark or a hash then it is a binary expression
             return new BinaryExpression(left, binary_op, right);//First Binary Expression
         }
     //endregion
 
     //region - TERNARY EXPRESSION - return the ternary expression with the binary expression as the condition
         if ((operation == '<' || operation == '>' || operation == '_' ) && expr_decision == '?') {//If the operation is a comparison and the expression decision is a question mark then it is a ternary expression
-            //cout << "\tA ternary expression was found: " << in.str() << endl;
-            //After the question mark, there should be a true expression then a colon, then a false expression
             trueExpr = Operand::parse(in);
             in >> ws >> colon >> ws;
             falseExpr = Operand::parse(in);
             in >> ws >> semicolon >> ws;
-            //cout << "\t\tTrue Expression: " << trueExpr->evaluate() << endl;
-            //cout << "\t\tFalse Expression: " << falseExpr->evaluate() << endl;
+
             return new TernaryExpression(new BinaryExpression(left, binary_op, right), trueExpr, falseExpr);//Return the ternary expression with the binary expression as the condition
         }
     //endregion
 
     //region - QUATERNARY EXPRESSION - return the quaternary expression with the binary expression as the condition
         if (expr_decision == '#' && (operation != '<' || operation != '>' || operation != '_')){//If the operation is not a comparison and the expression decision is a hash then it is a quaternary expression
-            //cout << "\tA quaternary expression was found: " << in.str() << endl;
-            //After the '#' symbol, there should be a true expression then a colon, then a false expression
-            belowExpr = Operand::parse(in);
+            
+            belowExpr = Operand::parse(in);//Parse the below expression
             in >> ws >> colon >> ws;
-            sameExpr = Operand::parse(in);
+            sameExpr = Operand::parse(in);//Parse the same expression
             in >> ws >> colon >> ws;
-            aboveExpr = Operand::parse(in);
+            aboveExpr = Operand::parse(in);//Parse the above expression
             in >> ws >> semicolon >> ws;
-            //cout << "\t\tBelow Expression: " << belowExpr->evaluate() << endl;
-            //cout << "\t\tSame Expression: " << sameExpr->evaluate() << endl;
-            //cout << "\t\tAbove Expression: " << aboveExpr->evaluate() << endl;
             return new QuaternaryExpression(new BinaryExpression(left, binary_op, right), belowExpr, sameExpr, aboveExpr);//Return the ternary expression with the binary expression as the condition
         }
     //endregion

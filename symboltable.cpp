@@ -1,3 +1,13 @@
+/*
+* Name: Andrew Roney
+* Date: 2/14/2023
+* Project: Project 2
+* Description: This file contains the SymbolTable class, which contains a vector of Symbol objects. It contains
+*   a constructor that takes no parameters, an insert function that takes a variable name and its value as
+*   parameters and inserts them into the symbol table, a lookUp function that takes a variable name as a
+*   parameter and returns its value, and a clear function that clears the symbol table.
+*/
+
 // CMSC 330 Advanced Programming Languages
 // Project 2 Skeleton
 // UMGC CITE
